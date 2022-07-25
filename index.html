@@ -50,7 +50,13 @@
         You only can have 5 items
       </p>
       <ul>
-        <li v-for="item of items">{{ item }}</li>
+        <li
+          v-for="item of items"
+          :class="{strikeout: item.purchased, priority: item.priority}"
+          @click="togglePurchased(item)"
+        >
+          {{ item.label }}
+        </li>
       </ul>
       <p v-if="items.length === 0">Nice Job! You've bought all your items.</p>
     </main>
@@ -63,15 +69,26 @@
           state: "default",
           header: "shopping list app",
           newItem: "",
-          items: ["10 party hats", "2 board games", "20 cups"],
+          items: [
+            { label: "10 party hats", purchased: true, priority: false },
+            { label: "2 board games", purchased: false, priority: false },
+            { label: "20 cups", purchased: false, priority: true },
+          ],
         },
         methods: {
           saveItem() {
-            this.items.push(this.newItem);
+            this.items.push({
+              label: this.newItem,
+              purchased: false,
+              priority: false,
+            });
             this.newItem = "";
           },
           changeState(newState) {
             this.state = newState;
+          },
+          togglePurchased(item) {
+            item.purchased = !item.purchased;
           },
         },
       });
