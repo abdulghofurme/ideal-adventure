@@ -51,7 +51,7 @@
       </p>
       <ul>
         <li
-          v-for="item of items"
+          v-for="item of reversedItems"
           :class="{strikeout: item.purchased, priority: item.priority}"
           @click="togglePurchased(item)"
         >
@@ -74,6 +74,11 @@
             { label: "2 board games", purchased: false, priority: false },
             { label: "20 cups", purchased: false, priority: true },
           ],
+        },
+        computed: {
+          reversedItems() {
+            return this.items.slice(0).reverse();
+          },
         },
         methods: {
           saveItem() {
