@@ -16,6 +16,7 @@
           type="button"
           v-if="state === 'default'"
           @click="changeState('edit')"
+          :disabled="items.length >= 5"
         >
           Add Item
         </button>
@@ -34,11 +35,20 @@
           placeholder="Add an item"
           v-model="newItem"
           @keyup.enter="saveItem"
+          :disabled="items.length >= 5"
         />
-        <button type="button" class="btn btn-primary" v-on:click="saveItem">
+        <button
+          type="button"
+          class="btn btn-primary"
+          v-on:click="saveItem"
+          v-bind:disabled="newItem.length === 0 || items.length >= 5"
+        >
           Save Item
         </button>
       </div>
+      <p v-if="items.length >= 5 && state === 'edit'">
+        You only can have 5 items
+      </p>
       <ul>
         <li v-for="item of items">{{ item }}</li>
       </ul>
